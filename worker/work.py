@@ -5,6 +5,7 @@ from services.writeEs.write_es import WriteEs
 from boot.elastic import es_client
 from services.Listing import *
 
+
 def run():
     thread_base, thread_data, thread_data_notime, fields, weights = read_file(FILE_PATH)
     cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
@@ -21,5 +22,7 @@ def run():
 def cron():
     listing_file(FILE_PATH, run)
 
+
 if __name__ == '__main__':
     cron()
+
