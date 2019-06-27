@@ -23,6 +23,7 @@ def test_cal():
     score_notime = cal_score.cal_without_timely()
     doc = []
     index = "bbs_score_data_" + str(datetime.datetime.now().strftime('%Y-%m-%d'))
+
     for i in range(len(score)):
         data_dic = {}
         doc.append({"index": {}})
@@ -33,12 +34,14 @@ def test_cal():
             data_dic[fields[j]] = thread_data[i][j]
         doc.append(data_dic)
         if i % 1000 == 0 and i != 0:
-            es_client.bulk(index=index, body=doc, doc_type="thread_data")
+            es_client.bulk(index=index, body=doc, doc_type="_doc")
             doc = []
         if i == len(score) - 1:
-            es_client.bulk(index=index, body=doc, doc_type="thread_data")
+            es_client.bulk(index=index, body=doc, doc_type="_doc")
+
     doc = []
     index = "bbs_score_data_notime_" + str(datetime.datetime.now().strftime('%Y-%m-%d'))
+
     for i in range(len(score_notime)):
         data_dic = {}
         doc.append({"index": {}})
@@ -49,10 +52,10 @@ def test_cal():
             data_dic[fields[j]] = thread_data[i][j]
         doc.append(data_dic)
         if i % 1000 == 0 and i != 0:
-            es_client.bulk(index=index, body=doc, doc_type="thread_data_notime")
+            es_client.bulk(index=index, body=doc, doc_type="_doc")
             doc = []
         if i == len(score) - 1:
-            es_client.bulk(index=index, body=doc, doc_type="thread_data_notime")
+            es_client.bulk(index=index, body=doc, doc_type="_doc")
 
 
 def test_run():
