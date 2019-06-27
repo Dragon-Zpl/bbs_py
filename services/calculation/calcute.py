@@ -4,11 +4,12 @@ from sklearn.preprocessing import StandardScaler
 
 
 class CalScore:
-    def __init__(self, thread_base, thread_data, thread_data_notime):
+    def __init__(self, thread_base, thread_data, thread_data_notime, weights):
         self._thread_base = thread_base
         self._thread_data = thread_data
         self._thread_data_notime = thread_data_notime
         self._scaler = StandardScaler()
+        self._weights = weights
 
     def cal_with_timely(self):
         """
@@ -17,8 +18,9 @@ class CalScore:
         :param thread_data: thread info
         :return:  list [thread_id, thread_topic_id, thread_score]
         """
+        # [0.229046, 0.212894, 0.180076, 0.166511, 0.130550, 0.080924, -0.016670]
         # todo read mysql get weight
-        weight = np.array([0.229046, 0.212894, 0.180076, 0.166511, 0.130550, 0.080924, -0.016670])
+        weight = np.array(self._weights)
         # if np.shape(self._thread_data)[1] != np.shape(weight)[0]:
         #     raise Exception("weight not legal")
         # assert np.shape(self._thread_data)[1] == np.shape(weight)[0], "weight not legal"
@@ -42,7 +44,7 @@ class CalScore:
         :param thread_data: thread info without thread create time
         :return:  list [thread_id, thread_topic_id, thread_score]
         """
-        weight = np.array([0.229046, 0.212894, 0.180076, 0.166511, 0.130550, 0.080924])  # todo read mysql get weight
+        weight = np.array(self._weights[:-1])  # todo read mysql get weight
         # if np.shape(self._thread_data)[1] != np.shape(weight)[0]:
         #     raise Exception("weight not legal")
         # assert np.shape(self._thread_data)[1] == np.shape(weight)[1], "weight not legal"

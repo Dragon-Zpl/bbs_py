@@ -10,15 +10,15 @@ import datetime
 
 
 def test_read_file():
-    thread_base, thread_data, thread_data_notime = read_file("datasource(3).csv")
+    thread_base, thread_data, thread_data_notime, fields, weights = read_file("datasource(1).csv")
     # print("thread_base:"+str(thread_base))
     print("thread_data:" + str(thread_data))
     # print("thread_data_notime:" + str(thread_data_notime))
 
 
 def test_cal():
-    thread_base, thread_data, thread_data_notime = read_file("datasource(3).csv")
-    cal_score = CalScore(thread_base, thread_data, thread_data_notime)
+    thread_base, thread_data, thread_data_notime, fields, weights = read_file("datasource(1).csv")
+    cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
     score = cal_score.cal_with_timely()
     score_notime = cal_score.cal_without_timely()
     doc = []
@@ -29,13 +29,8 @@ def test_cal():
         data_dic["tid"] = score[i][0]
         data_dic["topicid"] = score[i][1]
         data_dic["score"] = score[i][2]
-        data_dic["replies"] = thread_data[i][0]
-        data_dic["favorite"] = thread_data[i][1]
-        data_dic["support"] = thread_data[i][2]
-        data_dic["historyPV"] = thread_data[i][3]
-        data_dic["yesterdayPV"] = thread_data[i][4]
-        data_dic["yesterdayUV"] = thread_data[i][5]
-        data_dic["dateline"] = thread_data[i][6]
+        for j in range(len(fields)):
+            data_dic[fields[j]] = thread_data[i][j]
         doc.append(data_dic)
         if i % 1000 == 0 and i != 0:
             es_client.bulk(index=index, body=doc, doc_type="thread_data")
@@ -50,12 +45,8 @@ def test_cal():
         data_dic["tid"] = score_notime[i][0]
         data_dic["topicid"] = score_notime[i][1]
         data_dic["score"] = score_notime[i][2]
-        data_dic["replies"] = thread_data_notime[i][0]
-        data_dic["favorite"] = thread_data_notime[i][1]
-        data_dic["support"] = thread_data_notime[i][2]
-        data_dic["historyPV"] = thread_data_notime[i][3]
-        data_dic["yesterdayPV"] = thread_data_notime[i][4]
-        data_dic["yesterdayUV"] = thread_data_notime[i][5]
+        for j in range(len(fields[:-1])):
+            data_dic[fields[j]] = thread_data[i][j]
         doc.append(data_dic)
         if i % 1000 == 0 and i != 0:
             es_client.bulk(index=index, body=doc, doc_type="thread_data_notime")
@@ -65,19 +56,19 @@ def test_cal():
 
 
 def test_run():
-    thread_base, thread_data, thread_data_notime = read_file("datasource(3).csv")
-    cal_score = CalScore(thread_base, thread_data, thread_data_notime)
+    thread_base, thread_data, thread_data_notime, fields, weights = read_file("datasource(1).csv")
+    cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
     score = cal_score.cal_with_timely()
     score_notime = cal_score.cal_without_timely()
 
-    write_es = WriteEs(es_client, thread_data, thread_data_notime)
+    write_es = WriteEs(es_client, thread_data, thread_data_notime, fields)
     write_es.write_thread_score_notime_to_es(score_notime)
     write_es.write_thread_score_to_es(score)
 
 
 def test_csv():
-    thread_base, thread_data, thread_data_notime = read_file("datasource(3).csv")
-    cal_score = CalScore(thread_base, thread_data, thread_data_notime)
+    thread_base, thread_data, thread_data_notime, fields, weights = read_file("datasource(1).csv")
+    cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
     score = cal_score.cal_with_timely()
     score_notime = cal_score.cal_without_timely()
     Write_Csv(thread_data, score)
@@ -96,5 +87,8 @@ def test_listen(file_path):
         time.sleep(60 * 30)
 
 
+def read_demo():
+    pass
+
 if __name__ == '__main__':
-    test_csv()
+    test_run()

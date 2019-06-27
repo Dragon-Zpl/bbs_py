@@ -2,11 +2,11 @@ import datetime
 
 
 class WriteEs:
-    def __init__(self, es_cli, thread_data, thread_data_notime):
+    def __init__(self, es_cli, thread_data, thread_data_notime, fields):
         self._esCli = es_cli
         self._thread_data = thread_data
         self._thread_data_notime = thread_data_notime
-
+        self._fields = fields
     def write_thread_score_to_es(self, thread_score):
         """
         将帖子得分信息写到es
@@ -22,13 +22,8 @@ class WriteEs:
                 data_dic["tid"] = thread_score[i][0]
                 data_dic["topicid"] = thread_score[i][1]
                 data_dic["score"] = thread_score[i][2]
-                data_dic["replies"] = self._thread_data[i][0]
-                data_dic["favorite"] = self._thread_data[i][1]
-                data_dic["support"] = self._thread_data[i][2]
-                data_dic["historyPV"] = self._thread_data[i][3]
-                data_dic["yesterdayPV"] = self._thread_data[i][4]
-                data_dic["yesterdayUV"] = self._thread_data[i][5]
-                data_dic["dateline"] = self._thread_data[i][6]
+                for j in range(len(self._fields)):
+                    data_dic[self._fields[j]] = self._thread_data[i][j]
                 doc.append(data_dic)
                 if i % 1000 == 0 and i != 0:
                     self._esCli.bulk(index=index, body=doc, doc_type="thread_data")
@@ -53,12 +48,8 @@ class WriteEs:
                 data_dic["tid"] = thread_score[i][0]
                 data_dic["topicid"] = thread_score[i][1]
                 data_dic["score"] = thread_score[i][2]
-                data_dic["replies"] = self._thread_data_notime[i][0]
-                data_dic["favorite"] = self._thread_data_notime[i][1]
-                data_dic["support"] = self._thread_data_notime[i][2]
-                data_dic["historyPV"] = self._thread_data_notime[i][3]
-                data_dic["yesterdayPV"] = self._thread_data_notime[i][4]
-                data_dic["yesterdayUV"] = self._thread_data_notime[i][5]
+                for j in range(len(self._fields[:-1])):
+                    data_dic[self._fields[j]] = self._thread_data_notime[i][j]
                 doc.append(data_dic)
                 if i % 1000 == 0 and i != 0:
                     self._esCli.bulk(index=index, body=doc, doc_type="thread_data_notime")
