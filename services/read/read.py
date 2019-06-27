@@ -3,7 +3,6 @@ import os
 import numpy as np
 import pandas as pd
 
-
 from conf.conf import FILE_PATH
 from helper.error.error import PathError
 
@@ -22,8 +21,8 @@ def read_file(file_path=""):
         raise PathError("csv 文件不存在")
     pd_data = pd.read_csv(file_path, delimiter=',', header=None)
     data = np.array(pd_data)
-    fields = data[0,:][2:]
-    weights = [float(i) for i in data[1,:][2:]]
+    fields = data[0, :][2:]
+    weights = [float(i) for i in data[1, :][2:]]
     data = np.array(pd.read_csv(file_path, delimiter=','))
     where_are_nan = np.isnan(data)
     data[where_are_nan] = 0

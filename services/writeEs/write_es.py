@@ -1,4 +1,5 @@
 import datetime
+from conf.conf import ES_INDEX, ES_INDEX_NOTIME
 
 
 class WriteEs:
@@ -7,6 +8,7 @@ class WriteEs:
         self._thread_data = thread_data
         self._thread_data_notime = thread_data_notime
         self._fields = fields
+
     def write_thread_score_to_es(self, thread_score):
         """
         将帖子得分信息写到es
@@ -15,7 +17,7 @@ class WriteEs:
         """
         try:
             doc = []
-            index = "bbs_score_data_" + str(datetime.datetime.now().strftime('%Y-%m-%d'))
+            index = ES_INDEX + str(datetime.datetime.now().strftime('%Y-%m-%d'))
             for i in range(len(thread_score)):
                 data_dic = {}
                 doc.append({"index": {}})
@@ -26,10 +28,10 @@ class WriteEs:
                     data_dic[self._fields[j]] = self._thread_data[i][j]
                 doc.append(data_dic)
                 if i % 1000 == 0 and i != 0:
-                    self._esCli.bulk(index=index, body=doc, doc_type="thread_data")
+                    self._esCli.bulk(index=index, body=doc, doc_type="_doc")
                     doc = []
                 if i == len(thread_score) - 1:
-                    self._esCli.bulk(index=index, body=doc, doc_type="thread_data")
+                    self._esCli.bulk(index=index, body=doc, doc_type="_doc")
         except Exception as e:
             pass
 
@@ -41,7 +43,7 @@ class WriteEs:
         """
         try:
             doc = []
-            index = "bbs_score_data_notime_" + str(datetime.datetime.now().strftime('%Y-%m-%d'))
+            index = ES_INDEX_NOTIME + str(datetime.datetime.now().strftime('%Y-%m-%d'))
             for i in range(len(thread_score)):
                 data_dic = {}
                 doc.append({"index": {}})
@@ -52,9 +54,9 @@ class WriteEs:
                     data_dic[self._fields[j]] = self._thread_data_notime[i][j]
                 doc.append(data_dic)
                 if i % 1000 == 0 and i != 0:
-                    self._esCli.bulk(index=index, body=doc, doc_type="thread_data_notime")
+                    self._esCli.bulk(index=index, body=doc, doc_type="_doc")
                     doc = []
                 if i == len(thread_score) - 1:
-                    self._esCli.bulk(index=index, body=doc, doc_type="thread_data_notime")
+                    self._esCli.bulk(index=index, body=doc, doc_type="_doc")
         except Exception as e:
             pass
