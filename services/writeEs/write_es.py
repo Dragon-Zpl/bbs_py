@@ -7,6 +7,7 @@ class WriteEs:
         self._thread_data = thread_data
         self._thread_data_notime = thread_data_notime
         self._fields = fields
+
     def write_thread_score_to_es(self, thread_score):
         """
         将帖子得分信息写到es
