@@ -21,6 +21,45 @@ def test_cal():
     cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
     score = cal_score.cal_with_timely()
     score_notime = cal_score.cal_without_timely()
+<<<<<<< HEAD
+=======
+    doc = []
+    index = "bbs_score_data_" + str(datetime.datetime.now().strftime('%Y-%m-%d'))
+
+    for i in range(len(score)):
+        data_dic = {}
+        doc.append({"index": {}})
+        data_dic["tid"] = score[i][0]
+        data_dic["topicid"] = score[i][1]
+        data_dic["score"] = score[i][2]
+        for j in range(len(fields)):
+            data_dic[fields[j]] = thread_data[i][j]
+        doc.append(data_dic)
+        if i % 1000 == 0 and i != 0:
+            es_client.bulk(index=index, body=doc, doc_type="_doc")
+            doc = []
+        if i == len(score) - 1:
+            es_client.bulk(index=index, body=doc, doc_type="_doc")
+
+    doc = []
+    index = "bbs_score_data_notime_" + str(datetime.datetime.now().strftime('%Y-%m-%d'))
+
+    for i in range(len(score_notime)):
+        data_dic = {}
+        doc.append({"index": {}})
+        data_dic["tid"] = score_notime[i][0]
+        data_dic["topicid"] = score_notime[i][1]
+        data_dic["score"] = score_notime[i][2]
+        for j in range(len(fields[:-1])):
+            data_dic[fields[j]] = thread_data[i][j]
+        doc.append(data_dic)
+        if i % 1000 == 0 and i != 0:
+            es_client.bulk(index=index, body=doc, doc_type="_doc")
+            doc = []
+        if i == len(score) - 1:
+            es_client.bulk(index=index, body=doc, doc_type="_doc")
+
+>>>>>>> e316d1235f3afba28f3766008d76ec0ed3d1fc72
 
 def test_run():
     thread_base, thread_data, thread_data_notime, fields, weights = read_file(FILE_PATH)
