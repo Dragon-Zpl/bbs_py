@@ -21,8 +21,10 @@ def read_file(file_path=""):
     if not os.path.exists(file_path):
         raise PathError("csv 文件不存在")
 
-    data = np.array(pd.read_csv(file_path))
+    data = np.array(pd.read_csv(file_path, delimiter=',',dtype=float))
 
+    where_are_nan = np.isnan(data)
+    data[where_are_nan] = 0
     thread_base, thread_data = np.hsplit(data, [2])
     thread_data_notime, tmp_data = np.hsplit(thread_data, [-1])
     return thread_base, thread_data, thread_data_notime

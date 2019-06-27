@@ -17,9 +17,11 @@ class CalScore:
         :param thread_data: thread info
         :return:  list [thread_id, thread_topic_id, thread_score]
         """
-        weight = np.array([1, 2]) # todo read mysql get weight
-
-        assert np.shape(self._thread_data)[1] == np.shape(weight)[1], "weight not legal"
+        # todo read mysql get weight
+        weight = np.array([0.229046, 0.212894, 0.180076, 0.166511, 0.130550, 0.080924, -0.016670])
+        # if np.shape(self._thread_data)[1] != np.shape(weight)[0]:
+        #     raise Exception("weight not legal")
+        # assert np.shape(self._thread_data)[1] == np.shape(weight)[0], "weight not legal"
 
         self._scaler.fit(self._thread_data)
         std_data = self._scaler.transform(self._thread_data)
@@ -27,7 +29,10 @@ class CalScore:
         score = np.dot(std_data, weight)
         score = score.reshape((-1, 1))
         finally_data = np.hstack((self._thread_base, score))
-
+        for data in finally_data:
+            data[0] = int(data[0])
+            data[1] = int(data[1])
+            data[2] = round(data[2], 3)
         return finally_data.tolist()
 
     def cal_without_timely(self):
@@ -37,9 +42,10 @@ class CalScore:
         :param thread_data: thread info without thread create time
         :return:  list [thread_id, thread_topic_id, thread_score]
         """
-        weight = np.array([1, 2, 3])  # todo read mysql get weight
-
-        assert np.shape(self._thread_data)[1] == np.shape(weight)[1], "weight not legal"
+        weight = np.array([0.229046, 0.212894, 0.180076, 0.166511, 0.130550, 0.080924])  # todo read mysql get weight
+        # if np.shape(self._thread_data)[1] != np.shape(weight)[0]:
+        #     raise Exception("weight not legal")
+        # assert np.shape(self._thread_data)[1] == np.shape(weight)[1], "weight not legal"
 
         self._scaler.fit(self._thread_data_notime)
         std_data = self._scaler.transform(self._thread_data_notime)
@@ -47,5 +53,8 @@ class CalScore:
         score = np.dot(std_data, weight)
         score = score.reshape((-1, 1))
         finally_data = np.hstack((self._thread_base, score))
-
+        for data in finally_data:
+            data[0] = int(data[0])
+            data[1] = int(data[1])
+            data[2] = round(data[2], 3)
         return finally_data.tolist()
