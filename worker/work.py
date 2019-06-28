@@ -32,7 +32,6 @@ def run():
 
 # 定时 run
 def cron():
-    run()
     listing_file(FILE_PATH, run)
 
 
