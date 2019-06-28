@@ -21,8 +21,7 @@ def test_cal():
     cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
     score = cal_score.cal_with_timely()
     score_notime = cal_score.cal_without_timely()
-<<<<<<< HEAD
-=======
+
     doc = []
     index = "bbs_score_data_" + str(datetime.datetime.now().strftime('%Y-%m-%d'))
 
@@ -58,8 +57,6 @@ def test_cal():
             doc = []
         if i == len(score) - 1:
             es_client.bulk(index=index, body=doc, doc_type="_doc")
-
->>>>>>> e316d1235f3afba28f3766008d76ec0ed3d1fc72
 
 def test_run():
     thread_base, thread_data, thread_data_notime, fields, weights = read_file(FILE_PATH)

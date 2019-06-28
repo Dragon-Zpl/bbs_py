@@ -4,10 +4,10 @@ ELASTIC_CONF = [{
     "port": "9200"
 }]
 
-FILE_PATH = ""
+FILE_PATH = "datasource(5).csv"
 
 ES_INDEX = "bbs_score_data_"
 ES_INDEX_NOTIME = "bbs_score_data_notime_"
-CSV_FILE_NAME = ""
-CSV_FILE_NAME_NOTIME = ""
+CSV_FILE_NAME = "test"
+CSV_FILE_NAME_NOTIME = "test_notime"
 

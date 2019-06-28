@@ -23,9 +23,11 @@ def read_file(file_path=""):
     data = np.array(pd_data)
     fields = data[0, :][2:]
     weights = [float(i) for i in data[1, :][2:]]
-    data = np.array(pd.read_csv(file_path, delimiter=','))
+    data = np.array(pd.read_csv(file_path, delimiter=',')[1:])
     where_are_nan = np.isnan(data)
+    where_are_inf = np.isinf(data)
     data[where_are_nan] = 0
+    data[where_are_inf] = 1
     thread_base, thread_data = np.hsplit(data, [2])
     thread_data_notime, tmp_data = np.hsplit(thread_data, [-1])
     return thread_base, thread_data, thread_data_notime, fields, weights

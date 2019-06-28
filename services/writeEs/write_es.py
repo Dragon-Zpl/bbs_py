@@ -27,13 +27,13 @@ class WriteEs:
                 for j in range(len(self._fields)):
                     data_dic[self._fields[j]] = self._thread_data[i][j]
                 doc.append(data_dic)
-                if i % 1000 == 0 and i != 0:
+                if i % 5000 == 0 and i != 0:
                     self._esCli.bulk(index=index, body=doc, doc_type="_doc")
                     doc = []
                 if i == len(thread_score) - 1:
                     self._esCli.bulk(index=index, body=doc, doc_type="_doc")
         except Exception as e:
-            pass
+            print(e)
 
     def write_thread_score_notime_to_es(self, thread_score):
         """
@@ -59,4 +59,4 @@ class WriteEs:
                 if i == len(thread_score) - 1:
                     self._esCli.bulk(index=index, body=doc, doc_type="_doc")
         except Exception as e:
-            pass
+            print(e)
