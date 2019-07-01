@@ -58,6 +58,7 @@ def test_cal():
         if i == len(score) - 1:
             es_client.bulk(index=index, body=doc, doc_type="_doc")
 
+
 def test_run():
     thread_base, thread_data, thread_data_notime, fields, weights = read_file(FILE_PATH)
     cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
@@ -74,8 +75,8 @@ def test_csv():
     cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
     score = cal_score.cal_with_timely()
     score_notime = cal_score.cal_without_timely()
-    Write_Csv(thread_data, score)
-    Write_Csv_notime(thread_data_notime, score_notime)
+    Write_Csv(thread_data, score, fields, 'test')
+    Write_Csv_notime(thread_data_notime, score_notime, fields, 'test_notime')
 
 
 def test_listen(file_path):

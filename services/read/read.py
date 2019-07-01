@@ -15,8 +15,9 @@ def read_file(file_path=""):
         thread_data: type ndarray thread info
         thread_data_notime type ndarray  thread info without thread create time
     """
+    print(file_path)
     if file_path == "":
-        file_path = FILE_PATH
+        raise PathError("文件路劲不能为空")
     if not os.path.exists(file_path):
         raise PathError("csv 文件不存在")
     pd_data = pd.read_csv(file_path, delimiter=',', header=None)
