@@ -30,7 +30,7 @@ class SMTP(object):
 
             self.att1 = MIMEText(open(file_path, 'rb').read(), 'base64', 'utf-8')
             self.att1["Content-Type"] = 'application/octet-stream'
-            self.att1["Content-Disposition"] = 'attachment; filename="test.zip"'
+            self.att1["Content-Disposition"] = 'attachment; filename="data.zip"'
             self.message.attach(self.att1)
             smtp_obj = smtplib.SMTP()
             smtp_obj.connect(self.host, 25)
