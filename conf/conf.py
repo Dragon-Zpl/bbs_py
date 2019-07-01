@@ -4,14 +4,14 @@ ELASTIC_CONF = [{
     "port": "9200"
 }]
 
-LISTING_DIR_PATH = "csv_datas"
+LISTING_DIR_PATH = "./csv_datas"
 
 ES_INDEX = "bbs_score_data_"
 ES_INDEX_NOTIME = "bbs_score_data_notime_"
 
 FILE_PATH = "datasource(5).csv" #测试使用
 
-SAVE_CSV_DIR_PATH = "get_csv_data"
+SAVE_CSV_DIR_PATH = "./get_csv_data"
 
 
 EMAIL_MSG = {
