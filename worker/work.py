@@ -41,7 +41,7 @@ def run(file_path):
 
 # 定时 run
 def cron():
-    event_handler = FileMonitorHandler()
+    event_handler = FileMonitorHandler(func=run)
     observer = Observer()
     observer.schedule(event_handler, path=WATCH_PATH, recursive=True)  # recursive递归的
     observer.start()

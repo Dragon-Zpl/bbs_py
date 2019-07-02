@@ -14,7 +14,6 @@ import sys
 from datetime import datetime
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
-from worker.work import run
 
 
 WATCH_PATH = '/deploy/source_csv'  # 监控目录
@@ -50,11 +49,11 @@ def listing_file(file_path, func):
 
 
 class FileMonitorHandler(FileSystemEventHandler):
-    def __init__(self, **kwargs):
+    def __init__(self, func, **kwargs):
         super(FileMonitorHandler, self).__init__(**kwargs)
         # 监控目录 目录下面以device_id为目录存放各自的图片
         self._watch_path = WATCH_PATH
-
+        self.func = func
     # 重写文件改变函数，文件改变都会触发文件夹变化
     def on_modified(self, event):
         if not event.is_directory:  # 文件改变都会触发文件夹变化
@@ -62,7 +61,7 @@ class FileMonitorHandler(FileSystemEventHandler):
             log.INFO("running")
             for csv_path in os.listdir(LISTING_DIR_PATH):
                 if ".csv" in csv_path:
-                    run(csv_path)
+                    self.func(csv_path)
             zipDir(SAVE_CSV_DIR_PATH, "./data.zip")
             t = SMTP()
             t.send_email_("15260826071@163.com", "./data.zip")
@@ -71,13 +70,13 @@ class FileMonitorHandler(FileSystemEventHandler):
                 os.remove(SAVE_CSV_DIR_PATH + "/" + i)
 
 
-if __name__ == "__main__":
-    event_handler = FileMonitorHandler()
-    observer = Observer()
-    observer.schedule(event_handler, path=WATCH_PATH, recursive=True)  # recursive递归的
-    observer.start()
-    observer.join()
-
-
-if __name__ == '__main__':
-    listing_file("../get_csv_data", test)
+# if __name__ == "__main__":
+#     event_handler = FileMonitorHandler()
+#     observer = Observer()
+#     observer.schedule(event_handler, path=WATCH_PATH, recursive=True)  # recursive递归的
+#     observer.start()
+#     observer.join()
+#
+#
+# if __name__ == '__main__':
+#     listing_file("../get_csv_data", test)
