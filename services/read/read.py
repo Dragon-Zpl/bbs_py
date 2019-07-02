@@ -2,11 +2,11 @@ import os
 
 import numpy as np
 import pandas as pd
-
+from services.decorators.decorator import Decorators_time
 from conf.conf import FILE_PATH
 from helper.error.error import PathError
 
-
+@Decorators_time
 def read_file(file_path=""):
     """
     read thread info csv
@@ -15,11 +15,10 @@ def read_file(file_path=""):
         thread_data: type ndarray thread info
         thread_data_notime type ndarray  thread info without thread create time
     """
-    print(file_path)
     if file_path == "":
         raise PathError("文件路劲不能为空")
     if not os.path.exists(file_path):
-        raise PathError("csv 文件不存在")
+        raise PathError("csv 文件不存在" + file_path)
     pd_data = pd.read_csv(file_path, delimiter=',', header=None)
     data = np.array(pd_data)
     fields = data[0, :][2:]

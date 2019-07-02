@@ -1,7 +1,8 @@
 import csv
 import datetime
+from services.decorators.decorator import Decorators_time
 
-
+@Decorators_time
 def Write_Csv(datas, score_datas, fields, filename):
     file_name = './get_csv_data/' + filename + '_' + str(datetime.datetime.now().strftime('%Y-%m-%d')) + '.csv'
     csv_file = open(file_name, "a+", encoding="utf-8", newline='')
@@ -17,7 +18,7 @@ def Write_Csv(datas, score_datas, fields, filename):
         score_data.extend(data)
         writer.writerow(score_data)
 
-
+@Decorators_time
 def Write_Csv_notime(datas, score_datas, fields, filename):
     file_name = './get_csv_data/' + filename + '_' + str(datetime.datetime.now().strftime('%Y-%m-%d')) + '.csv'
     csv_file = open(file_name, "a+", encoding="utf-8", newline='')

@@ -1,5 +1,6 @@
 .idea
 build.sh
-
+*.csv
 *.pyc
 mytest.py
+*.txt

@@ -1,7 +1,7 @@
 import numpy as np
 
 from sklearn.preprocessing import StandardScaler
-
+from services.decorators.decorator import Decorators_time
 
 class CalScore:
     def __init__(self, thread_base, thread_data, thread_data_notime, weights):
@@ -11,6 +11,7 @@ class CalScore:
         self._scaler = StandardScaler()
         self._weights = weights
 
+    @Decorators_time
     def cal_with_timely(self):
         """
         算分（具备时效性）
@@ -37,6 +38,7 @@ class CalScore:
             data[2] = round(data[2], 3)
         return finally_data.tolist()
 
+    @Decorators_time
     def cal_without_timely(self):
         """
         算分（不具备时效性）

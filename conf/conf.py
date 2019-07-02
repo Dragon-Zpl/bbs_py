@@ -22,3 +22,6 @@ EMAIL_MSG = {
     "from": "推荐得分数据",
     "subject": "推荐得分数据",
 }
+
+LOG_PATH = ""
+LOG_LEVEL = ""

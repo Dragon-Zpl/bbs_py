@@ -3,6 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.header import Header
 from conf.conf import EMAIL_MSG
+from util import log
 
 
 class SMTP(object):
@@ -36,8 +37,8 @@ class SMTP(object):
             smtp_obj.connect(self.host, 25)
             smtp_obj.login(self.user, self.password)
             smtp_obj.sendmail(self.sender, self.receivers, self.message.as_string())
-            print("Email send success")
+            log.INFO("Email send success")
             return True
         except smtplib.SMTPException:
-            print("Email send error")
+            log.INFO("Email send error")
             return False
