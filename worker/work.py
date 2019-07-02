@@ -7,13 +7,12 @@ from services.Listing import *
 from services.writecsv.write_csv import *
 from util import log
 from services.decorators.decorator import Decorators_time
-
-
+from conf.conf import BASIC_PATH
 @Decorators_time
 def run(file_path):
     # log.INFO('start')
     now_time = datetime.datetime.now()
-    thread_base, thread_data, thread_data_notime, fields, weights = read_file('./csv_datas/' + file_path)
+    thread_base, thread_data, thread_data_notime, fields, weights = read_file(BASIC_PATH + file_path)
     read_time = datetime.datetime.now()
     # log.INFO("读取csv时间：" + str(read_time - now_time))
     cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
