@@ -8,6 +8,9 @@ from services.writecsv.write_csv import *
 from util import log
 from services.decorators.decorator import Decorators_time
 from conf.conf import BASIC_PATH
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
+
 @Decorators_time
 def run(file_path):
     # log.INFO('start')
@@ -38,7 +41,11 @@ def run(file_path):
 
 # 定时 run
 def cron():
-    listing_file(LISTING_DIR_PATH, run)
+    event_handler = FileMonitorHandler()
+    observer = Observer()
+    observer.schedule(event_handler, path=WATCH_PATH, recursive=True)  # recursive递归的
+    observer.start()
+    observer.join()
 
 
 if __name__ == '__main__':
