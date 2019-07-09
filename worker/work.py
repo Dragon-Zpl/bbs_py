@@ -12,10 +12,10 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 @Decorators_time
-def run(file_path):
+def run(file_path, Field_number):
     # log.INFO('start')
     now_time = datetime.datetime.now()
-    thread_base, thread_data, thread_data_notime, fields, weights = read_file(BASIC_PATH + file_path)
+    thread_base, thread_data, thread_data_notime, fields, weights, fields_header = read_file(BASIC_PATH + file_path, Field_number)
     read_time = datetime.datetime.now()
     # log.INFO("读取csv时间：" + str(read_time - now_time))
     cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
@@ -31,9 +31,9 @@ def run(file_path):
     # print("写入es时间："+str(es_time-cal_time))
     # log.INFO('write csv')
     file_name = str(file_path).split(".")[0]
-    Write_Csv(thread_data, score, fields, file_name)
+    Write_Csv(thread_data, score, fields, file_name, fields_header)
     file_name = file_name + "_notime"
-    Write_Csv_notime(thread_data_notime, score_notime, fields, file_name)
+    Write_Csv_notime(thread_data_notime, score_notime, fields, file_name, fields_header)
     csv_time = datetime.datetime.now()
     # log.INFO("写入csv时间：" + str(csv_time - cal_time))
     # log.INFO('end')

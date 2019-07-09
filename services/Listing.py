@@ -62,15 +62,17 @@ class FileMonitorHandler(FileSystemEventHandler):
             file_path = event.src_path
             if "listen" in str(file_path):
                 log.INFO("running")
+                with open("/deploy/source_csv/listen.txt", 'r') as fp:
+                    field_number = int(fp.read())
                 for csv_path in os.listdir(LISTING_DIR_PATH):
                     if ".csv" in csv_path:
-                        self.func(csv_path)
+                        self.func(csv_path, field_number)
                 zipDir(SAVE_CSV_DIR_PATH, "./data.zip")
                 t = SMTP()
                 t.send_email_("15260826071@163.com", "./data.zip")
-                t.send_email_("weiming.lin@office.feng.com", "./data.zip")
-                t.send_email_("rumin.liu@office.feng.com", "./data.zip")
-                t.send_email_("ran.huo@office.feng.com", "./data.zip")
+                # t.send_email_("weiming.lin@office.feng.com", "./data.zip")
+                # t.send_email_("rumin.liu@office.feng.com", "./data.zip")
+                # t.send_email_("ran.huo@office.feng.com", "./data.zip")
                 os.remove("./data.zip")
                 for i in os.listdir(SAVE_CSV_DIR_PATH):
                     os.remove(SAVE_CSV_DIR_PATH + "/" + i)
