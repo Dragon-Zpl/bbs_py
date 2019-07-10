@@ -4,6 +4,8 @@ import time
 
 from services.decorators.decorator import Decorators_time
 from conf.conf import SAVE_CSV_DIR_PATH, BASIC_PATH
+from util import log
+
 
 def get_title_dic():
     with open(BASIC_PATH+"subject.txt", "r", encoding="utf-8") as fp:
@@ -39,6 +41,7 @@ def Write_Csv(datas, score_datas, fields, filename, fields_header):
         data = list(data)
         score_data = list(score_data)
         score_data.append(title_dic[str(int(float(score_data[0])))])
+        log.INFO(title_dic[str(int(float(score_data[0])))])
         score_data[0] = "https://bbs.feng.com/read-htm-tid-" + str(int(float(score_data[0]))) + ".html"
         if flag is not None:
             timeArray = time.localtime(int(score_data[2]))
