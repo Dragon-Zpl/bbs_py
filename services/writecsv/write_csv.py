@@ -38,8 +38,8 @@ def Write_Csv(datas, score_datas, fields, filename, fields_header):
     for data, score_data in zip(datas, score_datas):
         data = list(data)
         score_data = list(score_data)
-        score_data[0] = "https://bbs.feng.com/read-htm-tid-" + str(int(float(score_data[0]))) + ".html"
         score_data.append(title_dic[str(int(float(score_data[0])))])
+        score_data[0] = "https://bbs.feng.com/read-htm-tid-" + str(int(float(score_data[0]))) + ".html"
         if flag is not None:
             timeArray = time.localtime(int(score_data[2]))
             score_data[2] = str(time.strftime("%Y--%m--%d %H:%M:%S", timeArray))
@@ -67,8 +67,8 @@ def Write_Csv_notime(datas, score_datas, fields, filename, fields_header):
     for data, score_data in zip(datas, score_datas):
         data = list(data)
         score_data = list(score_data)
-        score_data[0] = "https://bbs.feng.com/read-htm-tid-" + str(int(float(score_data[0]))) + ".html"
         score_data.append(title_dic[str(int(float(score_data[0])))])
+        score_data[0] = "https://bbs.feng.com/read-htm-tid-" + str(int(float(score_data[0]))) + ".html"
         if flag is not None:
             timeArray = time.localtime(int(score_data[2]))
             score_data[2] = str(time.strftime("%Y--%m--%d %H:%M:%S", timeArray))
