@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from services.decorators.decorator import Decorators_time
 
+
 class CalScore:
     def __init__(self, thread_base, thread_data, thread_data_notime, weights):
         self._thread_base = thread_base

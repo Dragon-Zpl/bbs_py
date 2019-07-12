@@ -11,11 +11,13 @@ from conf.conf import BASIC_PATH
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
+
 @Decorators_time
 def run(file_path, Field_number):
     # log.INFO('start')
     now_time = datetime.datetime.now()
-    thread_base, thread_data, thread_data_notime, fields, weights, fields_header = read_file(BASIC_PATH + file_path, Field_number)
+    thread_base, thread_data, thread_data_notime, fields, weights, fields_header = read_file(BASIC_PATH + file_path,
+                                                                                             Field_number)
     read_time = datetime.datetime.now()
     # log.INFO("读取csv时间：" + str(read_time - now_time))
     cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)

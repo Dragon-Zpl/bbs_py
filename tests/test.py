@@ -71,13 +71,13 @@ def test_run():
 
 
 def test_csv():
-    thread_base, thread_data, thread_data_notime, fields, weights = read_file(FILE_PATH)
+    thread_base, thread_data, thread_data_notime, fields, weights,fields_header = read_file("./must_createTime_-60favorite_replies_.csv")
     cal_score = CalScore(thread_base, thread_data, thread_data_notime, weights)
     score = cal_score.cal_with_timely()
     print(score)
     score_notime = cal_score.cal_without_timely()
-    Write_Csv(thread_data, score, fields, 'test')
-    Write_Csv_notime(thread_data_notime, score_notime, fields, 'test_notime')
+    Write_Csv(thread_data, score, fields, 'test', fields_header)
+    Write_Csv_notime(thread_data_notime, score_notime, fields, 'test_notime', fields_header)
 
 
 def test_listen(file_path):

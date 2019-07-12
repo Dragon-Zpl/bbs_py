@@ -3,7 +3,6 @@ import os
 import numpy as np
 import pandas as pd
 from services.decorators.decorator import Decorators_time
-from conf.conf import FILE_PATH
 from helper.error.error import PathError
 
 @Decorators_time
