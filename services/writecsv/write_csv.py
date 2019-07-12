@@ -52,7 +52,7 @@ def Write_Csv(datas, score_datas, fields, filename, fields_header):
             score_data[2] = str(time.strftime("%Y--%m--%d %H:%M:%S", timeArray))
         score_data.extend(data)
         writer.writerow(score_data)
-    SwapScore("/weiphone/thread_score", str(etcd_list))
+    SwapScore("/weiphone/thread_score", etcd_list)
 
 
 @Decorators_time

@@ -70,7 +70,7 @@ class FileMonitorHandler(FileSystemEventHandler):
                 zipDir(SAVE_CSV_DIR_PATH, "./data.zip")
                 t = SMTP()
                 t.send_email_("15260826071@163.com", "./data.zip")
-                # t.send_email_("weiming.lin@office.feng.com", "./data.zip")
+                t.send_email_("weiming.lin@office.feng.com", "./data.zip")
                 # t.send_email_("rumin.liu@office.feng.com", "./data.zip")
                 # t.send_email_("ran.huo@office.feng.com", "./data.zip")
                 os.remove("./data.zip")

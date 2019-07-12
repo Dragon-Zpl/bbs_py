@@ -11,7 +11,7 @@ ES_INDEX_NOTIME = "bbs_score_data_notime_"
 
 FILE_PATH = "./must_createTime_-30favorite_replies_.csv" #测试使用
 
-SAVE_CSV_DIR_PATH = "."
+SAVE_CSV_DIR_PATH = "/deploy/gen_csv"
 
 BASIC_PATH = "/deploy/source_csv/"
 
